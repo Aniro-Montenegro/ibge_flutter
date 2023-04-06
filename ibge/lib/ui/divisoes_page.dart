@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ibge/model/cnae_classes.dart';
+
 import 'package:ibge/model/cnae_divisoes.dart';
-import 'package:ibge/services/cnae_classes_service.dart';
+
 import 'package:ibge/services/cnae_divisoes.dart';
+import 'package:ibge/ui/grupos_page.dart';
 
 class DivisoesPage extends StatefulWidget {
   const DivisoesPage({super.key});
@@ -32,30 +33,35 @@ class _DivisoesPageState extends State<DivisoesPage> {
               return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(
-                              snapshot.data![index].descricao ?? "",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                    return GestureDetector(
+                      child: Card(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                snapshot.data![index].descricao ?? "",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                              leading: Text('ID: ${snapshot.data![index].id}'),
                             ),
-                            leading: Text('ID: ${snapshot.data![index].id}'),
-                          ),
-                          ListTile(
-                            title: Text(
-                              snapshot.data![index].secao!.descricao ?? "",
-                              style: const TextStyle(
-                                fontSize: 16,
+                            ListTile(
+                              title: Text(
+                                snapshot.data![index].secao!.descricao ?? "",
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
+                              leading: Text('Secao: ${snapshot.data![index].secao!.id.toString()}'),
                             ),
-                            leading: Text('Grupo: ${snapshot.data![index].secao!.id.toString()}'),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      onTap: () {
+                        showGruoups(snapshot.data![index].id.toString());
+                      },
                     );
                   });
             } else {
@@ -64,6 +70,22 @@ class _DivisoesPageState extends State<DivisoesPage> {
               );
             }
           }),
+    );
+  }
+
+  showGruoups(String identificador) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => GruposPage(
+          identificador: identificador,
+        ),
+        transitionDuration: const Duration(microseconds: 1896),
+        transitionsBuilder: (_, animation, __, child) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+      ),
     );
   }
 }

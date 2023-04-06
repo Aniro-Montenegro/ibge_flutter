@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:ibge/config/colors.dart';
-import 'package:ibge/model/cnae_divisoes.dart';
 import 'package:ibge/ui/cnae_page.dart';
 import 'package:ibge/ui/divisoes_page.dart';
 
